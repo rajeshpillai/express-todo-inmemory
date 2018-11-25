@@ -15,7 +15,14 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var db;
+var db = {
+    newTask: "",
+    tasks: [
+        { id: 1, "title": "Task 1", done: false, edit: false },
+        { id: 2, "title": "Task 2", done: true, edit: false },
+        { id: 3, "title": "Task 3", done: false, edit: false },
+    ]
+};
 
 app.listen(port, function () {
     console.log(`Listening on port ${port}`);
@@ -25,7 +32,7 @@ app.listen(port, function () {
 
 app.get("/", function (req, res) {
     res.json({
-        status: "ok"
+        tasks: db.tasks
     });
 });
 
