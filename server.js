@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-app.set("view engine", 'ejs');
+app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
@@ -11,46 +11,51 @@ var port = 8888;
 
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({
+app.use(
+  bodyParser.urlencoded({
     extended: true
-}));
+  })
+);
 
 var db = {
-    newTask: "",
-    tasks: [
-        { id: 1, "title": "Task 1", done: false, edit: false },
-        { id: 2, "title": "Task 2", done: true, edit: false },
-        { id: 3, "title": "Task 3", done: false, edit: false },
-    ]
+  newTask: "",
+  tasks: [
+    { id: "1", title: "Task 1", done: "false", edit: "false" },
+    { id: "2", title: "Task 2", done: "true", edit: "false" }
+  ]
 };
 
-app.listen(port, function () {
-    console.log(`Listening on port ${port}`);
+app.listen(port, function() {
+  console.log(`Listening on port ${port}`);
 });
 
-
-
-app.get("/", function (req, res) {
-    res.json({
-        tasks: db.tasks
-    });
+app.get("/", function(req, res) {
+  res.json({ status: "ok" });
 });
 
-app.get("/delete/:id", function (req, res) {
-    res.redirect("/");
+app.post("/uploadclip", function(req, res) {
+  console.log("Clip: ", req.body.content);
+  res.json({ clip: req.body.content });
 });
 
-app.get("/edit/:id", function (req, res) {
-    console.log("editing todo with id: ", req.params.id);
-    res.end("ok");
-
+app.get("/api/all/", function(req, res) {
+  res.json(db.tasks);
 });
 
-app.post("/update", function (req, res) {
-    //var id = new mongodb.ObjectID(req.body.id);
-    res.redirect("/");
+app.get("/delete/:id", function(req, res) {
+  res.redirect("/");
 });
 
-app.post('/todos', (req, res) => {
-    res.redirect("/");
+app.get("/edit/:id", function(req, res) {
+  console.log("editing todo with id: ", req.params.id);
+  res.end("ok");
+});
+
+app.post("/update", function(req, res) {
+  //var id = new mongodb.ObjectID(req.body.id);
+  res.redirect("/");
+});
+
+app.post("/todos", (req, res) => {
+  res.redirect("/");
 });
