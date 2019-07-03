@@ -13,14 +13,6 @@ var db = {
 };
 
 
-// app.use(bodyParser.json());
-
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true
-//   })
-// );
-
 // middleware that is specific to this router
 app.get("/", function (req, res) {
   res.json(db.tasks);
@@ -41,7 +33,7 @@ function findById(id) {
 }
 
 app.delete("/:id", function (req, res) {
-  console.log(`deleteting todo with id ${req.params.id}`);
+  console.log(`Deleting todo with id ${req.params.id}`);
   let todo = findById(req.params.id);
   if (null == todo) {
     return res.status(404).send("not found");
@@ -53,6 +45,23 @@ app.delete("/:id", function (req, res) {
   db.tasks = todos;
 
   res.status(200).send("ok");
+});
+
+//Update
+app.put("/:id", function (req, res) {
+  let id = req.params.id;
+  console.log(`Updating todo with id ${id}`);
+  let todo = findById(id); // Here the todo object is returned by ref.
+  if (null == todo) {
+    return res.status(404).send("not found");
+  }
+
+  Object.keys(req.body).forEach(key => {
+    todo[key] = req.body[key];
+  });
+
+
+  res.json(todo);
 });
 
 
