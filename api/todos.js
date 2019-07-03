@@ -31,7 +31,7 @@ app.delete("/:id", function (req, res) {
     return res.status(404).send("not found");
   }
   let todos = db.tasks.filter((t) => {
-    return req.params.id !== t.id;
+    return req.params.id != t.id;
   });
 
   db.tasks = todos;
