@@ -1,0 +1,67 @@
+var express = require('express')
+const bodyParser = require("body-parser");
+
+var app = express.Router()
+
+
+var db = {
+  newTask: "",
+  tasks: [
+    { id: "1", title: "Task 1", done: "false", edit: "false" },
+    { id: "2", title: "Task 2", done: "true", edit: "false" }
+  ]
+};
+
+
+// app.use(bodyParser.json());
+
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true
+//   })
+// );
+
+// middleware that is specific to this router
+app.get("/", function (req, res) {
+  res.json(db.tasks);
+});
+
+
+app.get("/:id", function (req, res) {
+  let todo = findById(req.params.id);
+  res.json(todo);
+});
+
+function findById(id) {
+  let todo = db.tasks.find((t) => {
+    return id == t.id;
+  });
+
+  return todo;
+}
+
+app.delete("/:id", function (req, res) {
+  console.log(`deleteting todo with id ${req.params.id}`);
+  let todo = findById(req.params.id);
+  if (null == todo) {
+    return res.status(404).send("not found");
+  }
+  let todos = db.tasks.filter((t) => {
+    return req.params.id !== t.id;
+  });
+
+  db.tasks = todos;
+
+  res.status(200).send("ok");
+});
+
+
+app.post("/", function (req, res) {
+  console.log("Posting new todo: ", req.body);
+  let newTodo = req.body;
+  newTodo.id = +new Date();
+  db.tasks.push(newTodo);
+  res.status(200).json(newTodo);
+});
+
+module.exports = app
