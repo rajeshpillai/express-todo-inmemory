@@ -1,8 +1,11 @@
-const router = require('express').Router();
-
+var express = require('express');
 const db = require('../data/todos-db');
+var router = express.Router()
+
+
 console.log("DB: ", db);
 
+// middleware that is specific to this router
 router.get("/", function (req, res) {
   res.json(db.tasks);
 });
@@ -55,8 +58,8 @@ router.put("/:id", function (req, res) {
 
 
 router.post("/", function (req, res) {
-  console.log("Posting new todo: ", req.body.todo);
-  let newTodo = req.body.todo;
+  console.log("Posting new todo: ", req.body);
+  let newTodo = req.body;
   newTodo.id = +new Date();
   db.tasks.push(newTodo);
   res.status(200).json(newTodo);
