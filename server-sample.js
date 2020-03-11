@@ -1,11 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const app = express();
 const cors = require('cors');
 
 app.set("view engine", "ejs");
-
 app.use(cors());
 app.use(express.static("public"));
 
@@ -24,6 +22,10 @@ var db = {
   tasks: [
     { id: "1", title: "Task 1", done: "false", edit: "false" },
     { id: "2", title: "Task 2", done: "true", edit: "false" }
+  ],
+  subtasks: [
+    { id: "1", task_id: 1, title: "Sub Task 1", done: "false", edit: "false" },
+    { id: "2", task_id: 1, title: "Sub Task 2", done: "false", edit: "true" },
   ]
 };
 
@@ -40,7 +42,7 @@ app.post("/uploadclip", function(req, res) {
   res.json({ clip: req.body.content });
 });
 
-app.get("/api/all/", function(req, res) {
+app.get("/all/", function(req, res) {
   res.json(db.tasks);
 });
 
