@@ -1,5 +1,4 @@
 # Download code
-## cd into code folder
 ## npm i
 
 # Start Server
