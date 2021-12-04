@@ -1,5 +1,5 @@
 {
-  "name": "TodoServer",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "A Todo App Server",
   "main": "api-server.js",
